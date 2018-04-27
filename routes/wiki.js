@@ -1,8 +1,8 @@
 const express = require('express');
+const router = express.Router();
 const addPage = require('../views/addPage');
 const wikiPage = require('../views/wikipage')
 const {Page, User} = require('../models');
-const router = express.Router();
 
 module.exports = router;
 
@@ -23,7 +23,7 @@ router.get('/:slug', async (req, res, next) => {
     }
   });
 
-  res.json(wikiPage(slugPage));
+  res.send(wikiPage(slugPage));
   } catch (error) {
     next(error);
   }
@@ -42,7 +42,7 @@ router.post('/',  async (req, res, next) => {
     status: status
   })
 
-  const user = User.findOrCreate({
+  const user = await User.findOrCreate({
     where: {
       name: name
     },
@@ -50,11 +50,11 @@ router.post('/',  async (req, res, next) => {
       email: email
     }
   })
+  console.log(user);
 
   try {
     await page.save();
-    await user.save();
-    res.redirect('/');
+    res.redirect(`/wiki/${page.slug}`);
   } catch (error) {
     next(error);
   }
