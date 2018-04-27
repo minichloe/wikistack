@@ -3,11 +3,15 @@ const morgan = require('morgan');
 const bodyP = require('body-parser');
 const model = require('./models');
 const app = express();
+const user = require('./routes/user');
+const wiki = require('./routes/wiki');
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyP.json());
 app.use(bodyP.urlencoded({ extended: false }));
+app.use('/user', user);
+app.use('/wiki', wiki);
 
 model.db.authenticate().
     then(() => {
@@ -15,7 +19,7 @@ model.db.authenticate().
     })
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.redirect("/wiki");
 })
 
 const init = async () => {
@@ -28,3 +32,8 @@ const init = async () => {
 }
 
 init();
+
+
+
+
+
