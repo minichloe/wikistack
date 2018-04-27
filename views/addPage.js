@@ -29,7 +29,7 @@ module.exports = () => layout(html`
     <div>
       <label for="status">Status: </label>
       <input id="status" type="radio" name="status" value="open"><label for="open">Open</label>
-      <input id="status" type="radio" name="status" value="close"><label for="close">Close</label>
+      <input id="status" type="radio" name="status" value="closed"><label for="close">Close</label>
     </div>
 
     <div class="col-sm-offset-2 col-sm-10">

@@ -16,21 +16,19 @@ const Page = db.define('pages', {
     content: {
         type: Sequelize.TEXT,
         allowNull: false,
-        validate: {
-            len: [200]
-        }
+        // validate: {
+        //     len: [200]
+        // }
     },
     status: {
-        type: Sequelize.ENUM('open', 'closed'),
-        defaultValue: 'closed'
+        type: Sequelize.ENUM('open', 'closed')
     }
 })
 
-Page.beforeCreate((pageInstance, optionsObj)=> {
+const slugify = (str) => str.replace(/\s+/g, '_').replace(/\W/g, '');
+Page.beforeValidate((pageInstance, optionsObj)=> {
     pageInstance.slug = slugify(pageInstance.title);
 })
-
-const slugify = (str) => str.replace(/\s+/g, '_').replace(/\W/g, '');
 
 const User = db.define('users', {
     name: {
@@ -46,4 +44,4 @@ const User = db.define('users', {
     }
 })
 
-module.exports = {db};
+module.exports = {db, Page, User};

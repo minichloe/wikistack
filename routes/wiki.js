@@ -1,6 +1,7 @@
-const express = require("express");
-const addPage = require("../views/addPage");
-const db = require("../models/index");
+const express = require('express');
+const addPage = require('../views/addPage');
+const {Page} = require('../models');
+const {User} = require('../models');
 const router = express.Router();
 
 module.exports = router;
@@ -20,22 +21,24 @@ router.post('/',  async (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
 
-  const page = new db.Page({
+  const page = new Page({
     title: title,
     content: content,
     status: status
   })
 
-  const user = db.User.findOrCreate({
+  const user = User.findOrCreate({
     where: {
-      name: name,
+      name: name
+    },
+    defaults: {
       email: email
     }
   })
 
   try {
     await page.save();
-    await user.save();
+    // await user.save();
     res.redirect('/');
   } catch (error) {
     next(error);
