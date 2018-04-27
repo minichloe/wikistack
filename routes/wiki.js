@@ -42,7 +42,7 @@ router.post('/', async (req, res, next) => {
   try {
     const user = await User.findOrCreate({where: {name: req.body.name, email: req.body.email}});
     const page = await Page.create(req.body);
-    page.setAuthor(user);
+    page.setAuthor(user[0]);
     res.redirect(`/wiki/${page.slug}`);
   } catch (error) { next(error) };
 })
@@ -54,14 +54,7 @@ router.post('/', async (req, res, next) => {
 //   const name = req.body.name;
 //   const email = req.body.email;
 
-//   const user = await User.findOrCreate({
-//     where: {
-//       name: name
-//     },
-//     defaults: {
-//       email: email
-//     }
-//   })
+//   const user = await User.findOrCreate({where: {name: req.body.name, email: req.body.email}});
 
 //   const page = new Page({
 //     title: title,
@@ -70,8 +63,9 @@ router.post('/', async (req, res, next) => {
 //   })
 
 //   try {
-//     await page.save();
 //     page.setAuthor(user);
+//     await page.save();
+//     // page.setAuthor(user);
 //     res.redirect(`/wiki/${page.slug}`);
 //   } catch (error) {
 //     next(error);
