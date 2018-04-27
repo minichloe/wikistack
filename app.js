@@ -7,7 +7,7 @@ const user = require('./routes/user');
 const wiki = require('./routes/wiki');
 
 app.use(morgan('dev'));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
 app.use(bodyP.json());
 app.use(bodyP.urlencoded({ extended: false }));
 app.use('/user', user);

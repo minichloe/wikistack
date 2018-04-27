@@ -2,12 +2,21 @@ const express = require('express');
 const router = express.Router();
 const addPage = require('../views/addPage');
 const wikiPage = require('../views/wikipage')
+const main = require('../views/main');
 const {Page, User} = require('../models');
 
 module.exports = router;
 
-router.get('/', (req, res, next) => {
-  res.send('hello');
+router.get('/', async (req, res, next) => {
+  try {
+
+  const pages = await Page.findAll({
+    where: {
+      status: 'open'
+    }
+  })
+  res.send(main(pages));
+} catch (error) { next(error) };
 })
 
 router.get('/add', (req, res, next) => {
@@ -36,12 +45,6 @@ router.post('/',  async (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
 
-  const page = new Page({
-    title: title,
-    content: content,
-    status: status
-  })
-
   const user = await User.findOrCreate({
     where: {
       name: name
@@ -50,10 +53,16 @@ router.post('/',  async (req, res, next) => {
       email: email
     }
   })
-  console.log(user);
+
+  const page = new Page({
+    title: title,
+    content: content,
+    status: status,
+  })
 
   try {
     await page.save();
+    page.setAuthor(user);
     res.redirect(`/wiki/${page.slug}`);
   } catch (error) {
     next(error);
