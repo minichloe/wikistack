@@ -26,6 +26,12 @@ const Page = db.define('pages', {
     }
 })
 
+Page.beforeCreate((pageInstance, optionsObj)=> {
+    pageInstance.slug = slugify(pageInstance.title);
+})
+
+const slugify = (str) => str.replace(/\s+/g, '_').replace(/\W/g, '');
+
 const User = db.define('users', {
     name: {
         type: Sequelize.STRING,
