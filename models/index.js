@@ -16,9 +16,6 @@ const Page = db.define('pages', {
     content: {
         type: Sequelize.TEXT,
         allowNull: false,
-        // validate: {
-        //     len: [200]
-        // }
     },
     status: {
         type: Sequelize.ENUM('open', 'closed')
