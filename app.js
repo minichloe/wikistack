@@ -12,7 +12,10 @@ app.use(bodyP.json());
 app.use(bodyP.urlencoded({ extended: false }));
 app.use('/user', user);
 app.use('/wiki', wiki);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6923792cb8107b1b30eb2cf468102bd8a4ddeb36
 
 model.db.authenticate().
     then(() => {
@@ -20,7 +23,7 @@ model.db.authenticate().
     })
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.redirect("/wiki");
 })
 
 const init = async () => {
@@ -33,3 +36,8 @@ const init = async () => {
 }
 
 init();
+
+
+
+
+
