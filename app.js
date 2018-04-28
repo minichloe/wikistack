@@ -10,7 +10,7 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + '/views'));
 app.use(bodyP.json());
 app.use(bodyP.urlencoded({ extended: false }));
-app.use('/user', user);
+app.use('/users', user);
 app.use('/wiki', wiki);
 
 model.db.authenticate().

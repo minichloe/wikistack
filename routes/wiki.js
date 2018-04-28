@@ -32,7 +32,10 @@ router.get('/:slug', async (req, res, next) => {
     }
   });
 
-  res.send(wikiPage(slugPage));
+    const author = await slugPage.getAuthor();
+
+  res.send(wikiPage(slugPage, author));
+
   } catch (error) {
     next(error);
   }
